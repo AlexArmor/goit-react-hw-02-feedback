@@ -17,23 +17,35 @@ export default class App extends Component {
     }));
   };
 
+  countTotalFeedback = ({ good, neutral, bad }) => {
+    return good + neutral + bad;
+  };
+
+  countPositiveFeedbackPercentage = totalSum => {
+    return Math.ceil((this.state.good / totalSum) * 100);
+  };
+
   render() {
     const options = Object.keys(this.state);
+    const totalSum = this.countTotalFeedback(this.state);
+    const positivePercenteg = this.countPositiveFeedbackPercentage(totalSum);
     return (
       <>
-        <FeedbackOptions
-          options={options}
-          onLeaveFeedback={this.onLeaveFeedback}
-        />
-        <div>
-          <h2>Statistics</h2>
-          <ul>
-            <p>Good:{this.state.good}</p>
-            <p>Neutral:{this.state.neutral}</p>
-            <p>Bad:{this.state.bad}</p>
-            <p>Positive feedback:</p>
-          </ul>
-        </div>
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={options}
+            onLeaveFeedback={this.onLeaveFeedback}
+          />
+        </Section>
+        <Section title="Statistics">
+          <Statistics
+            good={this.state.good}
+            neutral={this.state.neutral}
+            bad={this.state.bad}
+            total={totalSum}
+            positivePercentage={positivePercenteg}
+          />
+        </Section>
       </>
     );
   }
