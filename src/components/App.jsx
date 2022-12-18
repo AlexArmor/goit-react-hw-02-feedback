@@ -38,13 +38,17 @@ export default class App extends Component {
           />
         </Section>
         <Section title="Statistics">
-          <Statistics
-            good={this.state.good}
-            neutral={this.state.neutral}
-            bad={this.state.bad}
-            total={totalSum}
-            positivePercentage={positivePercenteg}
-          />
+          {totalSum ? (
+            <Statistics
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={totalSum}
+              positivePercentage={positivePercenteg}
+            />
+          ) : (
+            <Notification message="There is no feedback" />
+          )}
         </Section>
       </>
     );
